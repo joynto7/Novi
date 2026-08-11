@@ -16,9 +16,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const VARIANT_CLASSES: Record<Variant, string> = {
   primary:
-    "bg-primary-600 text-white hover:bg-primary-700 focus-visible:outline-primary-600 disabled:bg-primary-300",
+    "border border-accent-600 bg-transparent text-accent-700 hover:bg-accent-500 hover:text-primary-900 hover:border-accent-500 focus-visible:outline-accent-500 disabled:border-accent-200 disabled:text-accent-300 dark:border-accent-400 dark:text-accent-400 dark:hover:bg-accent-500 dark:hover:text-primary-900 dark:disabled:border-accent-800 dark:disabled:text-accent-700",
   secondary:
-    "bg-accent-500 text-white hover:bg-accent-600 focus-visible:outline-accent-500 disabled:bg-accent-200",
+    "bg-primary-800 text-white hover:bg-primary-900 focus-visible:outline-primary-700 disabled:bg-primary-300 dark:bg-primary-600 dark:hover:bg-primary-500",
   outline:
     "border border-border bg-transparent text-foreground hover:bg-surface-muted focus-visible:outline-primary-600",
   ghost: "bg-transparent text-foreground hover:bg-surface-muted",
