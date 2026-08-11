@@ -3,57 +3,57 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* Navy */
-  --color-primary-50: #f4f4f6;
-  --color-primary-100: #e1e2e8;
-  --color-primary-200: #c1c4ce;
-  --color-primary-300: #9297a8;
-  --color-primary-400: #6b7288;
-  --color-primary-500: #4b5268;
-  --color-primary-600: #34394a;
-  --color-primary-700: #1f212c;
-  --color-primary-800: #0d1629;
-  --color-primary-900: #020e24;
+  /* Electric blue — navigation / filter icons */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
 
-  /* Champagne gold */
-  --color-accent-50: #fbf6ec;
-  --color-accent-100: #f6e9cc;
-  --color-accent-200: #f2dcac;
-  --color-accent-300: #eecf8c;
-  --color-accent-400: #eec987;
-  --color-accent-500: #edbf76;
-  --color-accent-600: #c49a63;
-  --color-accent-700: #936f49;
-  --color-accent-800: #6b5236;
-  --color-accent-900: #453423;
+  /* Vibrant orange — main action / "Book Now" */
+  --color-accent-50: #fff7ed;
+  --color-accent-100: #ffedd5;
+  --color-accent-200: #fed7aa;
+  --color-accent-300: #fdba74;
+  --color-accent-400: #fb923c;
+  --color-accent-500: #f97316;
+  --color-accent-600: #ea580c;
+  --color-accent-700: #c2410c;
+  --color-accent-800: #9a3412;
+  --color-accent-900: #7c2d12;
 
-  /* Neutral */
-  --color-teal-50: #f2f2f3;
-  --color-teal-100: #e1e1e3;
-  --color-teal-200: #c4c4c8;
-  --color-teal-300: #a3a4aa;
-  --color-teal-400: #85868d;
-  --color-teal-500: #686a74;
-  --color-teal-600: #5b5a65;
-  --color-teal-700: #494852;
-  --color-teal-800: #35343b;
-  --color-teal-900: #232228;
+  /* Midnight slate — text / neutral */
+  --color-teal-50: #f8fafc;
+  --color-teal-100: #f1f5f9;
+  --color-teal-200: #e2e8f0;
+  --color-teal-300: #cbd5e1;
+  --color-teal-400: #94a3b8;
+  --color-teal-500: #64748b;
+  --color-teal-600: #475569;
+  --color-teal-700: #334155;
+  --color-teal-800: #1e293b;
+  --color-teal-900: #0f172a;
 
-  --background: #f8f4f2;
-  --surface: #ffffff;
-  --surface-muted: #ede7df;
-  --foreground: #020e24;
-  --foreground-muted: #686a74;
-  --border-color: #ddd3c2;
+  --background: #ffffff;
+  --surface: var(--color-teal-50);
+  --surface-muted: var(--color-teal-100);
+  --foreground: var(--color-teal-900);
+  --foreground-muted: var(--color-teal-500);
+  --border-color: var(--color-teal-200);
 }
 
 .dark {
-  --background: #020e24;
-  --surface: #0d1629;
-  --surface-muted: #1f212c;
-  --foreground: #f8f4f2;
-  --foreground-muted: #a3a4aa;
-  --border-color: #35343b;
+  --background: #020617;
+  --surface: var(--color-teal-900);
+  --surface-muted: var(--color-teal-800);
+  --foreground: var(--color-teal-50);
+  --foreground-muted: var(--color-teal-400);
+  --border-color: var(--color-teal-700);
 }
 
 @theme inline {
