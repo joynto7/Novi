@@ -5,6 +5,7 @@ const { protect, authorize } = require('../middleware/auth');
 const {
   getEvents,
   getEvent,
+  getEventById,
   getRelatedEvents,
   getMyEvents,
   createEvent,
@@ -31,6 +32,7 @@ const eventValidation = [
 
 router.get('/', getEvents);
 router.get('/mine', protect, authorize('ORGANIZER', 'ADMIN'), getMyEvents);
+router.get('/id/:id', protect, authorize('ORGANIZER', 'ADMIN'), getEventById);
 router.get('/:slug', getEvent);
 router.get('/:slug/related', getRelatedEvents);
 

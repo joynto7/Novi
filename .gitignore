@@ -10,3 +10,4 @@ build/
 .claude/
 client/screenshot.js
 client/debug-requests.js
+client/e2e-dashboard.js

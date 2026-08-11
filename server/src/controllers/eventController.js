@@ -110,6 +110,15 @@ const getEvent = asyncHandler(async (req, res) => {
   res.json({ success: true, data: withRating(event) });
 });
 
+const getEventById = asyncHandler(async (req, res) => {
+  const event = await prisma.event.findUnique({ where: { id: req.params.id } });
+  if (!event) throw new ApiError(404, 'Event not found');
+  if (req.user.role !== 'ADMIN' && event.organizerId !== req.user.id) {
+    throw new ApiError(403, 'You can only view your own events');
+  }
+  res.json({ success: true, data: event });
+});
+
 const getRelatedEvents = asyncHandler(async (req, res) => {
   const event = await prisma.event.findUnique({ where: { slug: req.params.slug } });
   if (!event) throw new ApiError(404, 'Event not found');
@@ -128,9 +137,14 @@ const getRelatedEvents = asyncHandler(async (req, res) => {
 });
 
 const getMyEvents = asyncHandler(async (req, res) => {
+  const where = req.user.role === 'ADMIN' ? {} : { organizerId: req.user.id };
   const events = await prisma.event.findMany({
-    where: { organizerId: req.user.id },
-    include: { category: true, _count: { select: { bookings: true, reviews: true } } },
+    where,
+    include: {
+      category: true,
+      organizer: { select: { id: true, name: true } },
+      _count: { select: { bookings: true, reviews: true } },
+    },
     orderBy: { createdAt: 'desc' },
   });
   res.json({ success: true, data: events });
@@ -242,6 +256,7 @@ const deleteEvent = asyncHandler(async (req, res) => {
 module.exports = {
   getEvents,
   getEvent,
+  getEventById,
   getRelatedEvents,
   getMyEvents,
   createEvent,

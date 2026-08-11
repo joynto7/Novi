@@ -46,6 +46,9 @@ const getAllBookings = asyncHandler(async (req, res) => {
   const take = Math.min(Number(limit) || 10, 100);
   const skip = (Math.max(Number(page), 1) - 1) * take;
   const where = status ? { status } : {};
+  if (req.user.role === 'ORGANIZER') {
+    where.event = { organizerId: req.user.id };
+  }
 
   const [bookings, total] = await Promise.all([
     prisma.booking.findMany({
