@@ -26,7 +26,7 @@ export default function AnalyticsPage() {
     if (!user) return;
     Promise.all([
       api.get<ApiResponse<AdminStats>>("/dashboard/admin-stats"),
-      api.get<ApiResponse<EventCard[]>>("/events?limit=100"),
+      api.get<ApiResponse<EventCard[]>>("/events?limit=100&timeframe=all"),
     ])
       .then(([statsRes, eventsRes]) => {
         setStats(statsRes.data);

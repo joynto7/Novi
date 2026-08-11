@@ -36,9 +36,13 @@ const getEvents = asyncHandler(async (req, res) => {
     page = 1,
     limit = 9,
     featured,
+    timeframe = 'upcoming',
   } = req.query;
 
   const where = { status: 'PUBLISHED' };
+
+  if (timeframe === 'upcoming') where.startDate = { gte: new Date() };
+  else if (timeframe === 'past') where.startDate = { lt: new Date() };
 
   if (search) {
     where.OR = [

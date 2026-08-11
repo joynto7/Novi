@@ -38,7 +38,7 @@ export default function HomePage() {
       try {
         const [eventsRes, allEventsRes, categoriesRes, reviewsRes, postsRes] = await Promise.all([
           api.get<ApiResponse<EventCardType[]>>("/events?featured=true&limit=6"),
-          api.get<ApiResponse<EventCardType[]>>("/events?limit=100"),
+          api.get<ApiResponse<EventCardType[]>>("/events?limit=100&timeframe=all"),
           api.get<ApiResponse<Category[]>>("/categories"),
           api.get<ApiResponse<TestimonialReview[]>>("/reviews/featured"),
           api.get<ApiResponse<BlogPost[]>>("/blog?limit=3"),
