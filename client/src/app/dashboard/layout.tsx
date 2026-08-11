@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, PartyPopper } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { UserMenu } from "@/components/layout/UserMenu";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
+import { Logo } from "@/components/layout/Logo";
 import { PageSpinner } from "@/components/ui/Spinner";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -20,11 +21,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <div className="flex min-h-screen bg-surface-muted/30">
       <aside className="hidden w-64 shrink-0 border-r border-border bg-surface lg:block">
-        <div className="flex h-16 items-center gap-2 border-b border-border px-5 font-bold text-foreground">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600 text-white">
-            <PartyPopper className="h-4 w-4" />
-          </span>
-          Novi
+        <div className="flex h-16 items-center border-b border-border px-5">
+          <Logo />
         </div>
         <Sidebar role={user.role} />
       </aside>
@@ -34,11 +32,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="absolute inset-0 bg-black/50" onClick={() => setMobileOpen(false)} />
           <div className="absolute left-0 top-0 h-full w-64 bg-surface shadow-xl">
             <div className="flex h-16 items-center justify-between border-b border-border px-5 font-bold text-foreground">
-              <Link href="/" className="flex items-center gap-2">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600 text-white">
-                  <PartyPopper className="h-4 w-4" />
-                </span>
-                Novi
+              <Link href="/" className="flex items-center">
+                <Logo />
               </Link>
               <button onClick={() => setMobileOpen(false)} aria-label="Close menu">
                 <X className="h-5 w-5" />

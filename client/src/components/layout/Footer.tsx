@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { PartyPopper, Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { FacebookIcon, TwitterIcon, InstagramIcon, YoutubeIcon } from "@/components/layout/SocialIcons";
+import { Logo } from "@/components/layout/Logo";
 
 const FOOTER_LINKS = [
   {
@@ -45,11 +46,8 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-5">
           <div className="col-span-2">
-            <Link href="/" className="flex items-center gap-2 font-bold text-foreground">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-600 text-white">
-                <PartyPopper className="h-5 w-5" />
-              </span>
-              <span className="text-lg">Novi</span>
+            <Link href="/" className="flex items-center text-foreground">
+              <Logo />
             </Link>
             <p className="mt-3 max-w-xs text-sm text-foreground-muted">
               Discover, book, and host unforgettable events — from intimate workshops to citywide festivals.

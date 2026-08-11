@@ -3,10 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, PartyPopper } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { UserMenu } from "@/components/layout/UserMenu";
+import { Logo } from "@/components/layout/Logo";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 
@@ -34,11 +35,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-surface/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2 font-bold text-foreground">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary-600 text-white">
-            <PartyPopper className="h-5 w-5" />
-          </span>
-          <span className="text-lg">Novi</span>
+        <Link href="/" className="flex items-center text-foreground">
+          <Logo />
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
