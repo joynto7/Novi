@@ -1,6 +1,6 @@
-# Novi — Client
+# Occasio — Client
 
-Next.js frontend for the Novi event platform. See the [root README](../README.md)
+Next.js frontend for the Occasio event platform. See the [root README](../README.md)
 for full setup instructions, environment variables, and demo credentials.
 
 ```bash

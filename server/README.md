@@ -1,6 +1,6 @@
-# Novi — Server
+# Occasio — Server
 
-Express + PostgreSQL + Prisma API for the Novi event platform. See the
+Express + PostgreSQL + Prisma API for the Occasio event platform. See the
 [root README](../README.md) for full setup instructions, environment variables,
 and demo credentials.
 

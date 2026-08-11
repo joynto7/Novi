@@ -17,11 +17,11 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: {
-    default: "Novi — Discover & Book Amazing Events",
-    template: "%s | Novi",
+    default: "Occasio — Discover & Book Amazing Events",
+    template: "%s | Occasio",
   },
   description:
-    "Novi is a modern event platform for discovering, booking, and hosting events — from live music to tech summits.",
+    "Occasio is a modern event platform for discovering, booking, and hosting events — from live music to tech summits.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

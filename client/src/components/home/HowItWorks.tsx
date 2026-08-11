@@ -25,7 +25,7 @@ const STEPS = [
 export function HowItWorks() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-      <SectionHeader eyebrow="Simple by design" title="How Novi works" align="center" />
+      <SectionHeader eyebrow="Simple by design" title="How Occasio works" align="center" />
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
         {STEPS.map((step, i) => (
           <div key={step.title} className="relative flex flex-col items-center text-center">

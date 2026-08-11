@@ -1,6 +1,6 @@
-# Novi — Event Discovery & Booking Platform
+# Occasio — Event Discovery & Booking Platform
 
-Novi is a full-stack event platform where people discover, book, and review events,
+Occasio is a full-stack event platform where people discover, book, and review events,
 and organizers/admins manage everything from a role-based dashboard.
 
 Built as a production-style upgrade project: Next.js + Tailwind on the frontend,

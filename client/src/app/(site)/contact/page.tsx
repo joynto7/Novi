@@ -46,7 +46,7 @@ export default function ContactPage() {
             <Mail className="h-5 w-5 shrink-0 text-primary-600" />
             <div>
               <p className="text-sm font-semibold text-foreground">Email</p>
-              <p className="text-sm text-foreground-muted">hello@novi.events</p>
+              <p className="text-sm text-foreground-muted">hello@occasio.events</p>
             </div>
           </Card>
           <Card className="flex items-start gap-3 p-5">

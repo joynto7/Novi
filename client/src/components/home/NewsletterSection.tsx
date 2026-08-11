@@ -26,7 +26,7 @@ export function NewsletterSection() {
         name: "Newsletter Subscriber",
         email,
         subject: "Newsletter Signup",
-        message: `${email} subscribed to the Novi newsletter from the homepage.`,
+        message: `${email} subscribed to the Occasio newsletter from the homepage.`,
       });
       setStatus("success");
       setEmail("");

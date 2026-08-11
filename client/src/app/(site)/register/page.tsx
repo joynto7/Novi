@@ -29,7 +29,7 @@ export default function RegisterPage() {
     setFormError("");
     try {
       await registerUser(values.name, values.email, values.password);
-      showToast("Account created! Welcome to Novi.", "success");
+      showToast("Account created! Welcome to Occasio.", "success");
       router.push("/dashboard");
     } catch (err) {
       setFormError(err instanceof ApiRequestError ? err.message : "Unable to create account. Please try again.");
@@ -37,7 +37,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <AuthShell title="Create your account" subtitle="Join Novi to book and manage your events in one place.">
+    <AuthShell title="Create your account" subtitle="Join Occasio to book and manage your events in one place.">
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
         <Input label="Full name" required autoComplete="name" error={errors.name?.message} {...register("name")} />
         <Input label="Email" type="email" required autoComplete="email" error={errors.email?.message} {...register("email")} />

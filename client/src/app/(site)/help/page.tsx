@@ -30,7 +30,7 @@ const TOPICS = [
     items: [
       {
         q: "What payment methods are supported?",
-        a: "This demo environment simulates bookings without processing real payments. In production, Novi would integrate a payment provider like Stripe.",
+        a: "This demo environment simulates bookings without processing real payments. In production, Occasio would integrate a payment provider like Stripe.",
       },
       {
         q: "How do refunds work?",

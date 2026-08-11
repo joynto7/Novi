@@ -26,7 +26,7 @@ const VALUES = [
 ];
 
 const TIMELINE = [
-  { year: "2022", text: "Novi started as a weekend project to help local organizers fill empty seats." },
+  { year: "2022", text: "Occasio started as a weekend project to help local organizers fill empty seats." },
   { year: "2023", text: "Expanded into ticketing and reviews after our first 100 organizers asked for it." },
   { year: "2024", text: "Crossed 400 hosted events and launched organizer analytics." },
   { year: "2026", text: "Rebuilt the platform from the ground up for reliability and speed." },
@@ -39,7 +39,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">We help great events find great audiences</h1>
           <p className="mt-5 text-lg text-white/85">
-            Novi is a discovery and booking platform built for organizers who want less admin and more
+            Occasio is a discovery and booking platform built for organizers who want less admin and more
             impact, and attendees who want experiences worth their time.
           </p>
         </div>
@@ -75,7 +75,7 @@ export default function AboutPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-20 text-center sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-bold text-foreground sm:text-3xl">Want to bring your event to Novi?</h2>
+        <h2 className="text-2xl font-bold text-foreground sm:text-3xl">Want to bring your event to Occasio?</h2>
         <p className="mx-auto mt-3 max-w-md text-sm text-foreground-muted">
           Join our community of organizers and start reaching engaged, local audiences today.
         </p>

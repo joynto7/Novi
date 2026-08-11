@@ -13,7 +13,7 @@ export function BlogPreview({ posts, loading }: { posts: BlogPost[]; loading: bo
         <SectionHeader
           eyebrow="From the blog"
           title="Tips, stories & insights"
-          description="Guides for organizers and attendees alike, straight from the Novi team."
+          description="Guides for organizers and attendees alike, straight from the Occasio team."
         />
         <Link
           href="/blog"

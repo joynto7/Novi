@@ -18,7 +18,7 @@ export function Testimonials({ reviews, loading }: { reviews: TestimonialReview[
         <SectionHeader
           eyebrow="Loved by attendees"
           title="What people are saying"
-          description="Real feedback from real attendees across the events hosted on Novi."
+          description="Real feedback from real attendees across the events hosted on Occasio."
           align="center"
         />
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

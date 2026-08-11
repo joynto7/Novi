@@ -5,7 +5,7 @@ const PRIVACY_SECTIONS = [
   },
   {
     title: "How we use your information",
-    body: "We use your information to process bookings, send booking confirmations, personalize event recommendations, and improve the Novi platform.",
+    body: "We use your information to process bookings, send booking confirmations, personalize event recommendations, and improve the Occasio platform.",
   },
   {
     title: "Data sharing",
@@ -17,13 +17,13 @@ const PRIVACY_SECTIONS = [
   },
   {
     title: "Your choices",
-    body: "You can update or delete your profile information at any time from your Dashboard. Contact us if you'd like your account fully removed from Novi.",
+    body: "You can update or delete your profile information at any time from your Dashboard. Contact us if you'd like your account fully removed from Occasio.",
   },
 ];
 
 const TERMS_SECTIONS = [
   {
-    title: "Using Novi",
+    title: "Using Occasio",
     body: "By creating an account, you agree to provide accurate information and to use the platform only for lawful event discovery, booking, and hosting activities.",
   },
   {
@@ -40,7 +40,7 @@ const TERMS_SECTIONS = [
   },
   {
     title: "Changes to these terms",
-    body: "We may update these terms occasionally. Continued use of Novi after changes take effect constitutes acceptance of the updated terms.",
+    body: "We may update these terms occasionally. Continued use of Occasio after changes take effect constitutes acceptance of the updated terms.",
   },
 ];
 

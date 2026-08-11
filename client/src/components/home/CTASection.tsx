@@ -10,7 +10,7 @@ export function CTASection() {
           Ready to host your own event?
         </h2>
         <p className="max-w-md text-sm text-foreground-muted">
-          Join hundreds of organizers using Novi to manage bookings, track attendance, and grow their
+          Join hundreds of organizers using Occasio to manage bookings, track attendance, and grow their
           audience.
         </p>
         <Link href="/register">

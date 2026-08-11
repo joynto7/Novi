@@ -17,14 +17,14 @@ const FAQS = [
       "Yes. Head to your Dashboard > My Bookings to view your upcoming reservations. Refund eligibility depends on the individual event's policy, which is listed on the event's details page.",
   },
   {
-    question: "How do I become an event organizer on Novi?",
+    question: "How do I become an event organizer on Occasio?",
     answer:
       "Sign up for a free account, then reach out through our Contact page to request organizer access. Once approved, you'll get access to event creation tools and an organizer dashboard.",
   },
   {
-    question: "Is there a fee for using Novi?",
+    question: "Is there a fee for using Occasio?",
     answer:
-      "Browsing and creating a Novi account is completely free. Ticket prices are set individually by each event organizer, and some events are free to attend.",
+      "Browsing and creating an Occasio account is completely free. Ticket prices are set individually by each event organizer, and some events are free to attend.",
   },
   {
     question: "What happens if an event sells out?",

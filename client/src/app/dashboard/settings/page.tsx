@@ -42,7 +42,7 @@ export default function SettingsPage() {
 
       <Card className="p-6">
         <h2 className="mb-1 text-base font-semibold text-foreground">Appearance</h2>
-        <p className="mb-4 text-sm text-foreground-muted">Choose how Novi looks on this device.</p>
+        <p className="mb-4 text-sm text-foreground-muted">Choose how Occasio looks on this device.</p>
         <div className="flex items-center justify-between rounded-xl border border-border p-4">
           <div className="flex items-center gap-3">
             {theme === "dark" ? <Moon className="h-5 w-5 text-primary-600" /> : <Sun className="h-5 w-5 text-accent-500" />}

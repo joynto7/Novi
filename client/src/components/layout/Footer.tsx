@@ -57,7 +57,7 @@ export function Footer() {
                 <MapPin className="h-4 w-4 shrink-0" /> 148 Market Street, San Francisco, CA
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 shrink-0" /> hello@novi.events
+                <Mail className="h-4 w-4 shrink-0" /> hello@occasio.events
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 shrink-0" /> +1 (555) 010-2938
@@ -96,7 +96,7 @@ export function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 text-sm text-foreground-muted sm:flex-row">
-          <p>&copy; {new Date().getFullYear()} Novi Events, Inc. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Occasio Events, Inc. All rights reserved.</p>
           <div className="flex gap-4">
             <Link href="/privacy" className="hover:text-primary-600">
               Privacy

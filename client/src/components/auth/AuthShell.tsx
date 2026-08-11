@@ -39,7 +39,7 @@ export function AuthShell({
           </div>
         </div>
 
-        <p className="relative z-10 text-xs text-white/60">&copy; {new Date().getFullYear()} Novi Events, Inc.</p>
+        <p className="relative z-10 text-xs text-white/60">&copy; {new Date().getFullYear()} Occasio Events, Inc.</p>
       </div>
 
       <div className="flex items-center justify-center px-4 py-12 sm:px-6 lg:px-12">
