@@ -97,8 +97,8 @@
   --color-foreground-muted: var(--foreground-muted);
   --color-border: var(--border-color);
 
-  --font-sans: var(--font-plus-jakarta-sans);
-  --font-display: var(--font-instrument-serif);
+  --font-sans: var(--font-hanken-grotesk);
+  --font-display: var(--font-cormorant);
 }
 
 body {
@@ -106,16 +106,9 @@ body {
   color: var(--color-foreground);
 }
 
-/* ponytail: !important is deliberate here — Tailwind's .font-bold/.font-semibold
-   classes are already applied to ~30 h1/h2 instances site-wide, and a bare type
-   selector can never out-specificity a class selector. Instrument Serif only
-   ships a 400 weight anyway, so this keeps every heading at the "regular
-   weights" the brief calls for without a 30-file diff. Revisit by removing the
-   weight classes at the call sites if per-heading weight control is ever needed. */
 h1,
 h2 {
   font-family: var(--font-display);
-  font-weight: 400 !important;
   letter-spacing: normal;
 }
 
