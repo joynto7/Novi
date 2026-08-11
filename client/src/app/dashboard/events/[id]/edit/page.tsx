@@ -51,7 +51,11 @@ export default function EditEventPage() {
         <h1 className="text-2xl font-bold text-foreground">Edit Event</h1>
         <p className="mt-1 text-sm text-foreground-muted">Update the details for {event.title}.</p>
       </div>
-      <EventForm mode="edit" eventId={event.id} defaultValues={event} />
+      <EventForm
+        mode="edit"
+        eventId={event.id}
+        defaultValues={{ ...event, price: String(event.price), capacity: String(event.capacity) }}
+      />
     </div>
   );
 }

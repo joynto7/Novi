@@ -56,8 +56,14 @@ export const eventFormSchema = z.object({
   venue: z.string().min(2, "Venue is required"),
   startDate: z.string().min(1, "Start date is required"),
   endDate: z.string().min(1, "End date is required"),
-  price: z.coerce.number().min(0, "Price must be 0 or more"),
-  capacity: z.coerce.number().int().min(1, "Capacity must be at least 1"),
+  price: z
+    .string()
+    .min(1, "Price is required")
+    .refine((v) => !Number.isNaN(Number(v)) && Number(v) >= 0, "Price must be 0 or more"),
+  capacity: z
+    .string()
+    .min(1, "Capacity is required")
+    .refine((v) => Number.isInteger(Number(v)) && Number(v) >= 1, "Capacity must be at least 1"),
   featured: z.boolean().optional(),
 });
 export type EventFormValues = z.infer<typeof eventFormSchema>;

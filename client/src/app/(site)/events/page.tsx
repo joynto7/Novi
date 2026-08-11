@@ -11,14 +11,6 @@ import { EventCardSkeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Pagination } from "@/components/ui/Pagination";
 
-const DEFAULT_FILTERS: EventFiltersState = {
-  search: "",
-  category: "",
-  minPrice: "",
-  maxPrice: "",
-  sort: "startDate_asc",
-};
-
 export default function EventsPage() {
   return (
     <Suspense fallback={null}>

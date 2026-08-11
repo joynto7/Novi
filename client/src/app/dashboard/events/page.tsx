@@ -48,7 +48,6 @@ export default function ManageEventsPage() {
 
   useEffect(() => {
     if (user) load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const handleDelete = async () => {
