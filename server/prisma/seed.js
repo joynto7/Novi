@@ -4,7 +4,11 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-const img = (seed, w = 800, h = 600) => `https://picsum.photos/seed/${seed}/${w}/${h}`;
+// Locally generated cover art (client/public/covers) is used instead of an external image CDN,
+// so the app has zero runtime dependency on third-party image hosts.
+const cover = (slug, variant) => `/covers/${slug}-${variant}.svg`;
+const categoryCovers = (categorySlug, count, offset = 0) =>
+  Array.from({ length: count }, (_, i) => cover(categorySlug, ((offset + i) % 4) + 1));
 
 const daysFromNow = (n) => {
   const d = new Date();
@@ -52,7 +56,6 @@ async function main() {
       email: 'admin@novi.demo',
       password,
       role: 'ADMIN',
-      avatar: img('avatar-admin', 200, 200),
       phone: '+1 (555) 019-2231',
       bio: 'Platform administrator overseeing events, organizers, and community health.',
     },
@@ -64,7 +67,6 @@ async function main() {
       email: 'organizer@novi.demo',
       password,
       role: 'ORGANIZER',
-      avatar: img('avatar-organizer', 200, 200),
       phone: '+1 (555) 042-7710',
       bio: 'Independent event organizer running tech and music experiences across the city.',
     },
@@ -76,7 +78,6 @@ async function main() {
       email: 'user@novi.demo',
       password,
       role: 'USER',
-      avatar: img('avatar-user', 200, 200),
       phone: '+1 (555) 088-4420',
       bio: 'Always looking for the next great event to attend.',
     },
@@ -96,7 +97,6 @@ async function main() {
           email,
           password,
           role: 'USER',
-          avatar: img(`avatar-extra-${i}`, 200, 200),
         },
       })
     )
@@ -381,7 +381,7 @@ async function main() {
         shortDescription: e.shortDescription,
         description: e.description,
         overview: e.overview,
-        images: e.images.map((s) => img(s)),
+        images: categoryCovers(catByName[e.category].slug, e.images.length, EVENTS.indexOf(e)),
         startDate: daysFromNow(e.startOffset),
         endDate: daysFromNow(e.endOffset),
         location: e.location,
@@ -450,35 +450,35 @@ async function main() {
       excerpt: 'From picking the right venue to promoting your event online, here is how to get started.',
       content:
         'Hosting your first community event can feel overwhelming, but breaking it down into a few key steps makes it manageable. Start by defining a clear goal for your event, choose a venue that matches your expected attendance, and give yourself at least six weeks of lead time for promotion. Use social media and local community boards to spread the word, and always have a simple check-in process ready for the day of the event.',
-      coverImage: img('blog-1'),
+      coverImage: cover('blog', 1),
     },
     {
       title: 'Why Live Events Are Making a Comeback',
       excerpt: 'After years of virtual-first experiences, in-person gatherings are thriving again.',
       content:
         'Attendance at in-person events has climbed steadily over the past two years as people look for genuine connection that video calls cannot replicate. Organizers are responding by investing more in experience design - better catering, more interactive formats, and venues that encourage networking rather than passive listening.',
-      coverImage: img('blog-2'),
+      coverImage: cover('blog', 2),
     },
     {
       title: 'A Guide to Pricing Your Event Tickets',
       excerpt: 'Free, tiered, or premium - how to choose the right pricing model for your audience.',
       content:
         'Pricing is one of the trickiest parts of planning an event. Free events tend to maximize attendance but often see higher no-show rates, while paid tickets create commitment but can limit your audience size. A tiered approach - offering an early-bird rate followed by standard pricing - tends to strike a good balance for most mid-sized events.',
-      coverImage: img('blog-3'),
+      coverImage: cover('blog', 3),
     },
     {
       title: 'Behind the Scenes: Organizing a 400-Person Summit',
       excerpt: 'A look at the logistics that go into a large-scale technology summit.',
       content:
         'Running a summit for 400 attendees requires coordinating catering, AV equipment, speaker logistics, and registration all at once. Our team started planning nine months in advance, running weekly check-ins with every vendor to make sure nothing fell through the cracks on event day.',
-      coverImage: img('blog-4'),
+      coverImage: cover('blog', 4),
     },
     {
       title: 'How to Write Event Descriptions That Convert',
       excerpt: 'The details that turn a casual browser into a confirmed attendee.',
       content:
         'A good event description answers three questions quickly: what is this, who is it for, and why should I care. Lead with the most compelling detail, keep sentences short, and always end with a clear call to action so readers know exactly what to do next.',
-      coverImage: img('blog-5'),
+      coverImage: cover('blog', 5),
     },
   ];
 

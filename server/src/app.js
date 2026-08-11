@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const authRoutes = require('./routes/authRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const eventRoutes = require('./routes/eventRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const blogRoutes = require('./routes/blogRoutes');
 const contactRoutes = require('./routes/contactRoutes');
@@ -35,6 +36,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/reviews', reviewRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/blog', blogRoutes);
 app.use('/api/contact', contactRoutes);

@@ -2,6 +2,19 @@ const prisma = require('../config/prisma');
 const asyncHandler = require('../utils/asyncHandler');
 const ApiError = require('../utils/ApiError');
 
+const getFeaturedReviews = asyncHandler(async (req, res) => {
+  const reviews = await prisma.review.findMany({
+    where: { rating: { gte: 4 } },
+    include: {
+      user: { select: { id: true, name: true, avatar: true } },
+      event: { select: { id: true, title: true, slug: true } },
+    },
+    orderBy: [{ rating: 'desc' }, { createdAt: 'desc' }],
+    take: 6,
+  });
+  res.json({ success: true, data: reviews });
+});
+
 const getEventReviews = asyncHandler(async (req, res) => {
   const reviews = await prisma.review.findMany({
     where: { eventId: req.params.eventId },
@@ -43,4 +56,4 @@ const deleteReview = asyncHandler(async (req, res) => {
   res.json({ success: true, data: null });
 });
 
-module.exports = { getEventReviews, createReview, deleteReview };
+module.exports = { getFeaturedReviews, getEventReviews, createReview, deleteReview };

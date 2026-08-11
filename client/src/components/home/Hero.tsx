@@ -1,0 +1,79 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Search, Sparkles, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+
+export function Hero() {
+  const router = useRouter();
+  const [query, setQuery] = useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.push(query ? `/events?search=${encodeURIComponent(query)}` : "/events");
+  };
+
+  return (
+    <section className="relative flex min-h-[62vh] items-center overflow-hidden bg-gradient-to-br from-primary-700 via-primary-600 to-teal-600 sm:min-h-[68vh]">
+      <div
+        aria-hidden
+        className="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-accent-400/30 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="absolute -bottom-32 -right-24 h-96 w-96 rounded-full bg-teal-300/20 blur-3xl"
+      />
+
+      <div className="relative mx-auto flex w-full max-w-7xl flex-col items-center px-4 py-16 text-center sm:px-6 lg:px-8">
+        <span className="mb-5 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-4 py-1.5 text-sm font-medium text-white backdrop-blur">
+          <Sparkles className="h-4 w-4" /> Over 400 events hosted and counting
+        </span>
+
+        <h1 className="max-w-3xl text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+          Find your next unforgettable experience
+        </h1>
+        <p className="mt-5 max-w-xl text-base text-white/85 sm:text-lg">
+          Discover live music, tech summits, food tastings, and community gatherings near you —
+          then book your spot in seconds.
+        </p>
+
+        <form
+          onSubmit={handleSearch}
+          className="mt-8 flex w-full max-w-xl items-center gap-2 rounded-full bg-white p-1.5 shadow-xl dark:bg-surface"
+        >
+          <Search className="ml-3 h-5 w-5 shrink-0 text-foreground-muted" />
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search events, cities, or categories..."
+            aria-label="Search events"
+            className="h-11 flex-1 bg-transparent px-1 text-sm text-foreground outline-none placeholder:text-foreground-muted/70"
+          />
+          <Button type="submit" className="shrink-0">
+            Search
+          </Button>
+        </form>
+
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <Button
+            variant="secondary"
+            size="lg"
+            onClick={() => router.push("/events")}
+            className="!bg-white !text-primary-700 hover:!bg-white/90"
+          >
+            Explore Events <ArrowRight className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => router.push("/register")}
+            className="!border-white/40 !text-white hover:!bg-white/10"
+          >
+            Become an Organizer
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
