@@ -28,6 +28,7 @@ const eventValidation = [
   body('price').isFloat({ min: 0 }).withMessage('Price must be a positive number'),
   body('capacity').isInt({ min: 1 }).withMessage('Capacity must be at least 1'),
   body('categoryId').trim().notEmpty().withMessage('Category is required'),
+  body('videoUrl').optional({ checkFalsy: true }).isURL().withMessage('Video URL must be a valid URL'),
 ];
 
 router.get('/', getEvents);

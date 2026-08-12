@@ -65,5 +65,6 @@ export const eventFormSchema = z.object({
     .min(1, "Capacity is required")
     .refine((v) => Number.isInteger(Number(v)) && Number(v) >= 1, "Capacity must be at least 1"),
   featured: z.boolean().optional(),
+  videoUrl: z.union([z.literal(""), z.string().url("Must be a valid URL")]).optional(),
 });
 export type EventFormValues = z.infer<typeof eventFormSchema>;

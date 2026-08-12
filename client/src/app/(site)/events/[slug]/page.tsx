@@ -131,6 +131,20 @@ export default function EventDetailsPage() {
             </div>
           </div>
 
+          {event.videoUrl && (
+            <section className="mt-8">
+              <h2 className="text-xl font-semibold text-foreground">Watch the highlights</h2>
+              <video
+                className="mt-3 aspect-video w-full rounded-2xl bg-black object-cover"
+                src={event.videoUrl}
+                controls
+                muted
+                playsInline
+                preload="metadata"
+              />
+            </section>
+          )}
+
           <div className="mt-8 space-y-6">
             <section>
               <h2 className="text-xl font-semibold text-foreground">Overview</h2>

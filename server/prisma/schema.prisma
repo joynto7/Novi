@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
@@ -28,7 +29,8 @@ model User {
   id           String    @id @default(cuid())
   name         String
   email        String    @unique
-  password     String
+  password     String?
+  googleId     String?   @unique
   role         Role      @default(USER)
   avatar       String?
   phone        String?
@@ -58,6 +60,7 @@ model Event {
   description    String
   overview       String
   images         String[]
+  videoUrl       String?
   startDate      DateTime
   endDate        DateTime
   location       String

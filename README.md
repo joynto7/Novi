@@ -1,5 +1,7 @@
 # Occasio — Event Discovery & Booking Platform
 
+[GitHub Repository](https://github.com/joynto7/Novi)
+
 Occasio is a full-stack event platform where people discover, book, and review events,
 and organizers/admins manage everything from a role-based dashboard.
 
@@ -76,6 +78,18 @@ npm run dev                            # starts the app on http://localhost:3000
 
 Open [http://localhost:3000](http://localhost:3000).
 
+### 3. Google sign-in (optional)
+
+Google sign-in works out of the box once you supply a client ID — without one, the
+Google button just explains that and points to the demo accounts instead.
+
+1. In [Google Cloud Console](https://console.cloud.google.com/apis/credentials),
+   create an **OAuth client ID** of type "Web application".
+2. Add `http://localhost:3000` to **Authorized JavaScript origins**.
+3. Copy the client ID into both `server/.env` (`GOOGLE_CLIENT_ID`) and
+   `client/.env.local` (`NEXT_PUBLIC_GOOGLE_CLIENT_ID`) — same value in both.
+4. Restart both dev servers.
+
 ### Production build
 
 ```bash
@@ -99,8 +113,8 @@ All demo accounts use the password `Demo@123`, or use the one-click **Demo User*
 - **Public site**: landing page (hero + 8 content sections), event listing with
   search/filter/sort/pagination, event details with gallery + reviews + booking,
   blog, about, contact (wired to the backend), help/FAQ, privacy/terms.
-- **Auth**: register/login with validation, demo login, Google button (UI-complete;
-  needs a `GOOGLE_CLIENT_ID` to go live).
+- **Auth**: register/login with validation, demo login, Google sign-in (see setup
+  below — falls back to an informational button when unconfigured).
 - **Role-based dashboard**:
   - **User**: overview with spend chart, my bookings, profile, settings.
   - **Organizer**: overview, my events (create/edit/delete), bookings, reviews.
@@ -121,9 +135,25 @@ All demo accounts use the password `Demo@123`, or use the one-click **Demo User*
 | `JWT_SECRET`     | Secret used to sign JWTs                      |
 | `JWT_EXPIRES_IN` | Token lifetime (default `7d`)                 |
 | `CLIENT_URL`     | Frontend origin, for CORS (default `http://localhost:3000`) |
+| `GOOGLE_CLIENT_ID` | OAuth client ID for verifying Google sign-in (optional)   |
 
 **`client/.env.local`**
 
 | Variable              | Description                          |
 | ---------------------- | ------------------------------------- |
 | `NEXT_PUBLIC_API_URL`  | Backend API base URL (default `http://localhost:5000/api`) |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | Same OAuth client ID as the server, exposed to the browser (optional) |
+
+## Deployment
+
+Not yet deployed. To ship it:
+
+- **Frontend**: deploy `client/` to [Vercel](https://vercel.com) (framework preset:
+  Next.js), set `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_GOOGLE_CLIENT_ID` in project
+  env vars.
+- **Backend**: deploy `server/` to [Railway](https://railway.app) or
+  [Render](https://render.com), set all `server/.env` vars, and run
+  `npx prisma migrate deploy && npm run seed` once against the production database.
+- Update `CLIENT_URL` on the backend and `NEXT_PUBLIC_API_URL` on the frontend to
+  point at each other's deployed URLs, and add the deployed frontend origin to the
+  Google OAuth client's Authorized JavaScript origins.

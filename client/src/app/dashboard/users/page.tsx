@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { Trash2, Users as UsersIcon } from "lucide-react";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { useDebounce } from "@/hooks/useDebounce";
 import { useToast } from "@/context/ToastContext";
 import { useAuth } from "@/context/AuthContext";
 import api from "@/lib/api";
@@ -40,11 +41,13 @@ export default function ManageUsersPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [deleteTarget, setDeleteTarget] = useState<ManagedUser | null>(null);
 
+  const debouncedSearch = useDebounce(search, 350);
+
   const load = () => {
     if (!authorizedUser) return;
     setLoading(true);
     const params = new URLSearchParams({ page: String(page), limit: "8" });
-    if (search) params.set("search", search);
+    if (debouncedSearch) params.set("search", debouncedSearch);
     if (roleFilter) params.set("role", roleFilter);
 
     api
@@ -57,17 +60,11 @@ export default function ManageUsersPage() {
       .finally(() => setLoading(false));
   };
 
-  useEffect(load, [authorizedUser, page, roleFilter]);
+  useEffect(load, [authorizedUser, page, roleFilter, debouncedSearch]);
 
   useEffect(() => {
-    if (!authorizedUser) return;
-    const timeout = setTimeout(() => {
-      setPage(1);
-      load();
-    }, 350);
-    return () => clearTimeout(timeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search]);
+    setPage(1);
+  }, [debouncedSearch]);
 
   const handleRoleChange = async (id: string, role: Role) => {
     try {

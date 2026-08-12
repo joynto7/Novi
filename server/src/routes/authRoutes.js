@@ -6,6 +6,7 @@ const {
   register,
   login,
   demoLogin,
+  googleLogin,
   logout,
   getMe,
   updateProfile,
@@ -38,6 +39,7 @@ router.post(
 );
 
 router.post('/demo-login', demoLogin);
+router.post('/google', [body('credential').notEmpty().withMessage('Missing Google credential')], validate, googleLogin);
 router.post('/logout', logout);
 router.get('/me', protect, getMe);
 

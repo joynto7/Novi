@@ -17,6 +17,7 @@ interface EventRecord {
   description: string;
   overview: string;
   images: string[];
+  videoUrl?: string | null;
   location: string;
   venue: string;
   startDate: string;
@@ -54,7 +55,12 @@ export default function EditEventPage() {
       <EventForm
         mode="edit"
         eventId={event.id}
-        defaultValues={{ ...event, price: String(event.price), capacity: String(event.capacity) }}
+        defaultValues={{
+          ...event,
+          price: String(event.price),
+          capacity: String(event.capacity),
+          videoUrl: event.videoUrl ?? undefined,
+        }}
       />
     </div>
   );

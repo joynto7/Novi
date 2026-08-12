@@ -1,13 +1,16 @@
 const bcrypt = require('bcryptjs');
+const { OAuth2Client } = require('google-auth-library');
 const prisma = require('../config/prisma');
 const asyncHandler = require('../utils/asyncHandler');
 const ApiError = require('../utils/ApiError');
 const { signToken } = require('../utils/jwt');
 
+const googleClient = process.env.GOOGLE_CLIENT_ID ? new OAuth2Client(process.env.GOOGLE_CLIENT_ID) : null;
+
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
-  sameSite: 'lax',
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 
@@ -54,10 +57,51 @@ const login = asyncHandler(async (req, res) => {
   if (!user) {
     throw new ApiError(401, 'Invalid email or password');
   }
+  if (!user.password) {
+    throw new ApiError(401, 'This account uses Google sign-in. Continue with Google instead.');
+  }
 
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
     throw new ApiError(401, 'Invalid email or password');
+  }
+
+  sendAuthResponse(res, user);
+});
+
+// Verifies a Google ID token and logs in the matching user, linking or creating one as needed.
+const googleLogin = asyncHandler(async (req, res) => {
+  if (!googleClient) {
+    throw new ApiError(500, 'Google sign-in is not configured on this server');
+  }
+
+  const { credential } = req.body;
+  const ticket = await googleClient.verifyIdToken({
+    idToken: credential,
+    audience: process.env.GOOGLE_CLIENT_ID,
+  });
+  const payload = ticket.getPayload();
+  if (!payload?.email) {
+    throw new ApiError(401, 'Google did not return a valid account');
+  }
+
+  let user = await prisma.user.findUnique({ where: { googleId: payload.sub } });
+
+  if (!user) {
+    user = await prisma.user.findUnique({ where: { email: payload.email } });
+    if (user) {
+      user = await prisma.user.update({ where: { id: user.id }, data: { googleId: payload.sub } });
+    } else {
+      user = await prisma.user.create({
+        data: {
+          name: payload.name || payload.email.split('@')[0],
+          email: payload.email,
+          googleId: payload.sub,
+          avatar: payload.picture,
+          role: 'USER',
+        },
+      });
+    }
   }
 
   sendAuthResponse(res, user);
@@ -105,6 +149,9 @@ const changePassword = asyncHandler(async (req, res) => {
   const { currentPassword, newPassword } = req.body;
 
   const user = await prisma.user.findUnique({ where: { id: req.user.id } });
+  if (!user.password) {
+    throw new ApiError(400, 'This account uses Google sign-in and has no password to change');
+  }
   const match = await bcrypt.compare(currentPassword, user.password);
   if (!match) {
     throw new ApiError(401, 'Current password is incorrect');
@@ -120,6 +167,7 @@ module.exports = {
   register,
   login,
   demoLogin,
+  googleLogin,
   logout,
   getMe,
   updateProfile,

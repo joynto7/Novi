@@ -1,7 +1,13 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+import Script from "next/script";
+import { useRouter } from "next/navigation";
 import { useToast } from "@/context/ToastContext";
+import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/Button";
+
+const CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 
 function GoogleIcon() {
   return (
@@ -26,20 +32,93 @@ function GoogleIcon() {
   );
 }
 
+// Renders Google's own Sign In With Google button via the Google Identity Services
+// script (no extra npm dependency). Falls back to an informational button when
+// NEXT_PUBLIC_GOOGLE_CLIENT_ID isn't configured, e.g. in local demo environments.
 export function GoogleButton({ label = "Continue with Google" }: { label?: string }) {
   const { showToast } = useToast();
+  const { googleLogin } = useAuth();
+  const router = useRouter();
+  const buttonSlot = useRef<HTMLDivElement>(null);
 
-  const handleClick = () => {
-    showToast(
-      "Google sign-in needs a GOOGLE_CLIENT_ID configured on the server to go live in this demo. Try a demo account instead.",
-      "info"
+  useEffect(() => {
+    if (!CLIENT_ID) return;
+
+    const renderGoogleButton = () => {
+      const google = window.google;
+      if (!google || !buttonSlot.current) return;
+
+      google.accounts.id.initialize({
+        client_id: CLIENT_ID,
+        callback: async (response: { credential: string }) => {
+          try {
+            await googleLogin(response.credential);
+            router.push("/dashboard");
+          } catch {
+            showToast("Google sign-in failed. Please try again.", "error");
+          }
+        },
+      });
+      google.accounts.id.renderButton(buttonSlot.current, {
+        theme: "outline",
+        size: "large",
+        width: 320,
+        text: label.toLowerCase().startsWith("sign up") ? "signup_with" : "continue_with",
+      });
+    };
+
+    if (window.google) {
+      renderGoogleButton();
+    } else {
+      const interval = setInterval(() => {
+        if (window.google) {
+          clearInterval(interval);
+          renderGoogleButton();
+        }
+      }, 100);
+      return () => clearInterval(interval);
+    }
+  }, [googleLogin, router, showToast, label]);
+
+  if (!CLIENT_ID) {
+    return (
+      <Button
+        type="button"
+        variant="outline"
+        fullWidth
+        onClick={() =>
+          showToast(
+            "Google sign-in needs a GOOGLE_CLIENT_ID configured on the server to go live in this demo. Try a demo account instead.",
+            "info"
+          )
+        }
+      >
+        <GoogleIcon />
+        {label}
+      </Button>
     );
-  };
+  }
 
   return (
-    <Button type="button" variant="outline" fullWidth onClick={handleClick}>
-      <GoogleIcon />
-      {label}
-    </Button>
+    <>
+      <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" />
+      <div ref={buttonSlot} className="flex w-full justify-center" />
+    </>
   );
+}
+
+declare global {
+  interface Window {
+    google?: {
+      accounts: {
+        id: {
+          initialize: (config: { client_id: string; callback: (response: { credential: string }) => void }) => void;
+          renderButton: (
+            parent: HTMLElement,
+            options: { theme?: string; size?: string; width?: number; text?: string }
+          ) => void;
+        };
+      };
+    };
+  }
 }

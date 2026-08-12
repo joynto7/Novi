@@ -55,6 +55,7 @@ export interface EventDetail extends EventCard {
   overview: string;
   venue: string;
   endDate: string;
+  videoUrl?: string | null;
   organizer: { id: string; name: string; avatar?: string | null };
   reviews: Review[];
 }

@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Search, Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
+const HERO_VIDEO_URL = "https://videos.pexels.com/video-files/12695727/12695727-hd_1920_1080_24fps.mp4";
+
 export function Hero() {
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -16,6 +18,18 @@ export function Hero() {
 
   return (
     <section className="relative flex min-h-[62vh] items-center overflow-hidden bg-gradient-to-br from-primary-700 via-primary-600 to-teal-600 sm:min-h-[68vh]">
+      {HERO_VIDEO_URL && (
+        <video
+          aria-hidden
+          className="absolute inset-0 h-full w-full object-cover"
+          src={HERO_VIDEO_URL}
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+      )}
+      <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-primary-700/80 via-primary-600/75 to-teal-600/70" />
       <div
         aria-hidden
         className="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-accent-400/30 blur-3xl"

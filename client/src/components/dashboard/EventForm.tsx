@@ -49,7 +49,12 @@ export function EventForm({ mode, eventId, defaultValues }: EventFormProps) {
   const onSubmit = async (values: EventFormValues) => {
     const payload = {
       ...values,
-      images: defaultValues?.images?.length ? defaultValues.images : ["/covers/brand-1.svg", "/covers/brand-2.svg"],
+      images: defaultValues?.images?.length
+        ? defaultValues.images
+        : [
+            "https://images.unsplash.com/photo-1752159684779-0639174cdfac?w=3840&q=80&fm=jpg&fit=crop",
+            "https://images.unsplash.com/photo-1758873269013-d914addd5d3b?w=3840&q=80&fm=jpg&fit=crop",
+          ],
       startDate: new Date(values.startDate).toISOString(),
       endDate: new Date(values.endDate).toISOString(),
     };
@@ -106,6 +111,13 @@ export function EventForm({ mode, eventId, defaultValues }: EventFormProps) {
           <Input label="Price ($)" type="number" step="0.01" min={0} required error={errors.price?.message} {...register("price")} />
           <Input label="Capacity" type="number" min={1} required error={errors.capacity?.message} {...register("capacity")} />
         </div>
+
+        <Input
+          label="Promo video URL (optional)"
+          hint="Direct link to an MP4 or embeddable video, shown on the event details page."
+          error={errors.videoUrl?.message}
+          {...register("videoUrl")}
+        />
 
         <label className="flex items-center gap-2 text-sm text-foreground">
           <input type="checkbox" className="h-4 w-4 rounded border-border" {...register("featured")} />

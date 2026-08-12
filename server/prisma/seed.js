@@ -4,11 +4,82 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-// Locally generated cover art (client/public/covers) is used instead of an external image CDN,
-// so the app has zero runtime dependency on third-party image hosts.
-const cover = (slug, variant) => `/covers/${slug}-${variant}.svg`;
-const categoryCovers = (categorySlug, count, offset = 0) =>
-  Array.from({ length: count }, (_, i) => cover(categorySlug, ((offset + i) % 4) + 1));
+// Real photography hotlinked from Unsplash's CDN, and video from Pexels — no local
+// binaries to commit, and next/image handles per-device resizing/optimization.
+const CATEGORY_PHOTOS = {
+  music: [
+    'https://images.unsplash.com/photo-1760966362386-e1012dbc3657?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1760092189954-5b2f6eb3ca88?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1761926826313-a1787661b7b6?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1724003450383-4016597e31e3?w=3840&q=80&fm=jpg&fit=crop',
+  ],
+  technology: [
+    'https://images.unsplash.com/photo-1762968274962-20c12e6e8ecd?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1763568258367-1c52beb60be7?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=3840&q=80&fm=jpg&fit=crop',
+  ],
+  business: [
+    'https://images.unsplash.com/photo-1752159684779-0639174cdfac?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1758873269013-d914addd5d3b?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1633114128729-0a8dc13406b9?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1758873269035-aae0e1fd3422?w=3840&q=80&fm=jpg&fit=crop',
+  ],
+  'arts-culture': [
+    'https://images.unsplash.com/photo-1572953109213-3be62398eb95?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1772617616268-a2f27d194fce?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1757085242652-f8cd4d3de889?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1637578035851-c5b169722de1?w=3840&q=80&fm=jpg&fit=crop',
+  ],
+  sports: [
+    'https://images.unsplash.com/photo-1519703936-c4a3b3eb88e4?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1763740357958-dfee42a2e7b9?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1718247528937-07667d8906d9?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1740226174345-2b14ab31c8d7?w=3840&q=80&fm=jpg&fit=crop',
+  ],
+  'food-drink': [
+    'https://images.unsplash.com/photo-1761095596765-c8abe01d3aea?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1527169402691-feff5539e52c?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1539056276907-dc946d5098c9?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1509458844418-596a0af865da?w=3840&q=80&fm=jpg&fit=crop',
+  ],
+  wellness: [
+    'https://images.unsplash.com/photo-1529693662653-9d480530a697?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1513097847644-f00cfe868607?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1646166468261-b18339c92fda?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=3840&q=80&fm=jpg&fit=crop',
+  ],
+  education: [
+    'https://images.unsplash.com/photo-1758270704522-f091f8064a81?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1743834147172-37c12011b321?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1758270704286-83476deb3bd1?w=3840&q=80&fm=jpg&fit=crop',
+    'https://images.unsplash.com/photo-1758873268998-2f77c2d38862?w=3840&q=80&fm=jpg&fit=crop',
+  ],
+};
+
+const BLOG_PHOTOS = [
+  'https://images.unsplash.com/photo-1769837230054-7f3a7356dde1?w=3840&q=80&fm=jpg&fit=crop',
+  'https://images.unsplash.com/photo-1713284624597-7fdc37414fc1?w=3840&q=80&fm=jpg&fit=crop',
+  'https://images.unsplash.com/photo-1631540699037-b729aafc12a4?w=3840&q=80&fm=jpg&fit=crop',
+  'https://images.unsplash.com/photo-1762968274962-20c12e6e8ecd?w=3840&q=80&fm=jpg&fit=crop',
+  'https://images.unsplash.com/photo-1735825764460-c5dec05d6253?w=3840&q=80&fm=jpg&fit=crop',
+];
+
+const CATEGORY_VIDEOS = {
+  music: 'https://videos.pexels.com/video-files/9481012/9481012-uhd_2560_1440_24fps.mp4',
+  technology: 'https://videos.pexels.com/video-files/6804109/6804109-uhd_2732_1440_25fps.mp4',
+  business: 'https://videos.pexels.com/video-files/6774633/6774633-uhd_2560_1440_30fps.mp4',
+  'arts-culture': 'https://videos.pexels.com/video-files/6214422/6214422-uhd_2560_1440_25fps.mp4',
+  sports: 'https://videos.pexels.com/video-files/6070825/6070825-uhd_2560_1440_24fps.mp4',
+  'food-drink': 'https://videos.pexels.com/video-files/8626269/8626269-uhd_2560_1440_25fps.mp4',
+  wellness: 'https://videos.pexels.com/video-files/7521693/7521693-hd_1920_1080_25fps.mp4',
+  education: 'https://videos.pexels.com/video-files/8198511/8198511-hd_1920_1080_25fps.mp4',
+};
+
+const categoryCovers = (categorySlug, count, offset = 0) => {
+  const photos = CATEGORY_PHOTOS[categorySlug];
+  return Array.from({ length: count }, (_, i) => photos[(offset + i) % photos.length]);
+};
 
 const daysFromNow = (n) => {
   const d = new Date();
@@ -382,6 +453,7 @@ async function main() {
         description: e.description,
         overview: e.overview,
         images: categoryCovers(catByName[e.category].slug, e.images.length, EVENTS.indexOf(e)),
+        videoUrl: CATEGORY_VIDEOS[catByName[e.category].slug] || null,
         startDate: daysFromNow(e.startOffset),
         endDate: daysFromNow(e.endOffset),
         location: e.location,
@@ -450,35 +522,35 @@ async function main() {
       excerpt: 'From picking the right venue to promoting your event online, here is how to get started.',
       content:
         'Hosting your first community event can feel overwhelming, but breaking it down into a few key steps makes it manageable. Start by defining a clear goal for your event, choose a venue that matches your expected attendance, and give yourself at least six weeks of lead time for promotion. Use social media and local community boards to spread the word, and always have a simple check-in process ready for the day of the event.',
-      coverImage: cover('blog', 1),
+      coverImage: BLOG_PHOTOS[0],
     },
     {
       title: 'Why Live Events Are Making a Comeback',
       excerpt: 'After years of virtual-first experiences, in-person gatherings are thriving again.',
       content:
         'Attendance at in-person events has climbed steadily over the past two years as people look for genuine connection that video calls cannot replicate. Organizers are responding by investing more in experience design - better catering, more interactive formats, and venues that encourage networking rather than passive listening.',
-      coverImage: cover('blog', 2),
+      coverImage: BLOG_PHOTOS[1],
     },
     {
       title: 'A Guide to Pricing Your Event Tickets',
       excerpt: 'Free, tiered, or premium - how to choose the right pricing model for your audience.',
       content:
         'Pricing is one of the trickiest parts of planning an event. Free events tend to maximize attendance but often see higher no-show rates, while paid tickets create commitment but can limit your audience size. A tiered approach - offering an early-bird rate followed by standard pricing - tends to strike a good balance for most mid-sized events.',
-      coverImage: cover('blog', 3),
+      coverImage: BLOG_PHOTOS[2],
     },
     {
       title: 'Behind the Scenes: Organizing a 400-Person Summit',
       excerpt: 'A look at the logistics that go into a large-scale technology summit.',
       content:
         'Running a summit for 400 attendees requires coordinating catering, AV equipment, speaker logistics, and registration all at once. Our team started planning nine months in advance, running weekly check-ins with every vendor to make sure nothing fell through the cracks on event day.',
-      coverImage: cover('blog', 4),
+      coverImage: BLOG_PHOTOS[3],
     },
     {
       title: 'How to Write Event Descriptions That Convert',
       excerpt: 'The details that turn a casual browser into a confirmed attendee.',
       content:
         'A good event description answers three questions quickly: what is this, who is it for, and why should I care. Lead with the most compelling detail, keep sentences short, and always end with a clear call to action so readers know exactly what to do next.',
-      coverImage: cover('blog', 5),
+      coverImage: BLOG_PHOTOS[4],
     },
   ];
 
