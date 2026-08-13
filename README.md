@@ -1,6 +1,6 @@
 # Occasio — Event Discovery & Booking Platform
 
-[GitHub Repository](https://github.com/joynto7/Novi) · [Live Demo](https://client-six-gray-21.vercel.app) · [API](https://server-blond-nine-70.vercel.app/api)
+[GitHub Repository](https://github.com/joynto7/Novi) · [Live Demo](https://client-eight-rho-92.vercel.app) · [API](https://server-theta-indol.vercel.app/api)
 
 Occasio is a full-stack event platform where people discover, book, and review events,
 and organizers/admins manage everything from a role-based dashboard.
@@ -148,12 +148,14 @@ All demo accounts use the password `Demo@123`, or use the one-click **Demo User*
 
 Live on Vercel:
 
-- **Frontend**: https://client-six-gray-21.vercel.app (Next.js, `client/`)
-- **Backend**: https://server-blond-nine-70.vercel.app/api (Express as a Vercel
+- **Frontend**: https://client-eight-rho-92.vercel.app (Next.js, `client/`)
+- **Backend**: https://server-theta-indol.vercel.app/api (Express as a Vercel
   Node function, `server/`, see `server/vercel.json`)
 - Database: Neon PostgreSQL (same instance used for local dev)
 
-To redeploy either side: `cd client && vercel --prod` or `cd server && vercel --prod`.
-Both projects have their env vars (`DATABASE_URL`, `JWT_SECRET`, `CLIENT_URL`,
-`GOOGLE_CLIENT_ID` / `NEXT_PUBLIC_GOOGLE_CLIENT_ID`, `NEXT_PUBLIC_API_URL`) already
-set on Vercel — `vercel env ls production` in each folder to inspect them.
+Both projects are under the `tremendous1` Vercel team. To redeploy either side:
+`cd client && vercel --prod --scope tremendous1` or `cd server && vercel --prod
+--scope tremendous1`. Both projects have their env vars (`DATABASE_URL`,
+`JWT_SECRET`, `CLIENT_URL`, `GOOGLE_CLIENT_ID` / `NEXT_PUBLIC_GOOGLE_CLIENT_ID`,
+`NEXT_PUBLIC_API_URL`) already set on Vercel — `vercel env ls production
+--scope tremendous1` in each folder to inspect them.
