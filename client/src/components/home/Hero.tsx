@@ -1,15 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
-const HERO_VIDEO_URL = "https://videos.pexels.com/video-files/12695727/12695727-hd_1920_1080_24fps.mp4";
+const SLIDE_DURATION_MS = 10000;
+
+const HERO_SLIDES = [
+  { label: "Music", video: "https://videos.pexels.com/video-files/9481012/9481012-uhd_2560_1440_24fps.mp4" },
+  { label: "Technology", video: "https://videos.pexels.com/video-files/6804109/6804109-uhd_2732_1440_25fps.mp4" },
+  { label: "Business", video: "https://videos.pexels.com/video-files/6774633/6774633-uhd_2560_1440_30fps.mp4" },
+  { label: "Arts & Culture", video: "https://videos.pexels.com/video-files/6214422/6214422-uhd_2560_1440_25fps.mp4" },
+  { label: "Sports", video: "https://videos.pexels.com/video-files/6070825/6070825-uhd_2560_1440_24fps.mp4" },
+  { label: "Food & Drink", video: "https://videos.pexels.com/video-files/8626269/8626269-uhd_2560_1440_25fps.mp4" },
+  { label: "Wellness", video: "https://videos.pexels.com/video-files/7521693/7521693-hd_1920_1080_25fps.mp4" },
+  { label: "Education", video: "https://videos.pexels.com/video-files/8198511/8198511-hd_1920_1080_25fps.mp4" },
+];
 
 export function Hero() {
   const router = useRouter();
   const [query, setQuery] = useState("");
+  const [slide, setSlide] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setSlide((i) => (i + 1) % HERO_SLIDES.length);
+        setVisible(true);
+      }, 400);
+    }, SLIDE_DURATION_MS);
+    return () => clearInterval(id);
+  }, []);
+
+  const goToSlide = (i: number) => {
+    setVisible(false);
+    setTimeout(() => {
+      setSlide(i);
+      setVisible(true);
+    }, 400);
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,17 +50,18 @@ export function Hero() {
 
   return (
     <section className="relative flex min-h-[62vh] items-center overflow-hidden bg-gradient-to-br from-primary-700 via-primary-600 to-teal-600 sm:min-h-[68vh]">
-      {HERO_VIDEO_URL && (
-        <video
-          aria-hidden
-          className="absolute inset-0 h-full w-full object-cover"
-          src={HERO_VIDEO_URL}
-          autoPlay
-          loop
-          muted
-          playsInline
-        />
-      )}
+      <video
+        key={slide}
+        aria-hidden
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
+          visible ? "opacity-100" : "opacity-0"
+        }`}
+        src={HERO_SLIDES[slide].video}
+        autoPlay
+        loop
+        muted
+        playsInline
+      />
       <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-primary-700/80 via-primary-600/75 to-teal-600/70" />
       <div
         aria-hidden
@@ -38,6 +71,30 @@ export function Hero() {
         aria-hidden
         className="absolute -bottom-32 -right-24 h-96 w-96 rounded-full bg-teal-300/20 blur-3xl"
       />
+
+      <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-3 sm:bottom-7">
+        <span
+          className={`text-xs font-medium tracking-wide text-white/90 transition-opacity duration-500 ${
+            visible ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          {HERO_SLIDES[slide].label}
+        </span>
+        <div className="flex items-center gap-1.5">
+          {HERO_SLIDES.map((s, i) => (
+            <button
+              key={s.label}
+              type="button"
+              onClick={() => goToSlide(i)}
+              aria-label={`Show ${s.label} events`}
+              aria-current={i === slide}
+              className={`h-1.5 rounded-full transition-all ${
+                i === slide ? "w-6 bg-white" : "w-1.5 bg-white/40 hover:bg-white/70"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
 
       <div className="relative mx-auto flex w-full max-w-7xl flex-col items-center px-4 py-16 text-center sm:px-6 lg:px-8">
         <span className="mb-5 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-4 py-1.5 text-sm font-medium text-white backdrop-blur">
