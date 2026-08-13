@@ -1,6 +1,6 @@
 # Occasio — Event Discovery & Booking Platform
 
-[GitHub Repository](https://github.com/joynto7/Novi)
+[GitHub Repository](https://github.com/joynto7/Novi) · [Live Demo](https://client-six-gray-21.vercel.app) · [API](https://server-blond-nine-70.vercel.app/api)
 
 Occasio is a full-stack event platform where people discover, book, and review events,
 and organizers/admins manage everything from a role-based dashboard.
@@ -146,14 +146,14 @@ All demo accounts use the password `Demo@123`, or use the one-click **Demo User*
 
 ## Deployment
 
-Not yet deployed. To ship it:
+Live on Vercel:
 
-- **Frontend**: deploy `client/` to [Vercel](https://vercel.com) (framework preset:
-  Next.js), set `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_GOOGLE_CLIENT_ID` in project
-  env vars.
-- **Backend**: deploy `server/` to [Railway](https://railway.app) or
-  [Render](https://render.com), set all `server/.env` vars, and run
-  `npx prisma migrate deploy && npm run seed` once against the production database.
-- Update `CLIENT_URL` on the backend and `NEXT_PUBLIC_API_URL` on the frontend to
-  point at each other's deployed URLs, and add the deployed frontend origin to the
-  Google OAuth client's Authorized JavaScript origins.
+- **Frontend**: https://client-six-gray-21.vercel.app (Next.js, `client/`)
+- **Backend**: https://server-blond-nine-70.vercel.app/api (Express as a Vercel
+  Node function, `server/`, see `server/vercel.json`)
+- Database: Neon PostgreSQL (same instance used for local dev)
+
+To redeploy either side: `cd client && vercel --prod` or `cd server && vercel --prod`.
+Both projects have their env vars (`DATABASE_URL`, `JWT_SECRET`, `CLIENT_URL`,
+`GOOGLE_CLIENT_ID` / `NEXT_PUBLIC_GOOGLE_CLIENT_ID`, `NEXT_PUBLIC_API_URL`) already
+set on Vercel — `vercel env ls production` in each folder to inspect them.
